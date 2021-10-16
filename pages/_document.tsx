@@ -1,17 +1,13 @@
 import * as React from 'react'
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import createEmotionServer from '@emotion/server/create-instance'
-import createEmotionCache from '../app/styles/createEmotionCache'
+import createEmotionCache from '../src/styles/createEmotionCache'
 
-export default class MyDocument extends Document {
+export default class AppDocument extends Document {
   render() {
     return (
-      <Html lang="en">
+      <Html lang="ru">
         <Head>
-          <meta
-            name="viewport"
-            content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=0"
-          />
           <meta name="theme-color" content="#000000" />
           <meta
             name="description"
@@ -40,7 +36,6 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/icon?family=Material+Icons"
             rel="stylesheet"
           />
-          <title>geekr.</title>
         </Head>
         <body>
           <Main />
@@ -51,7 +46,7 @@ export default class MyDocument extends Document {
   }
 }
 
-MyDocument.getInitialProps = async (ctx) => {
+AppDocument.getInitialProps = async (ctx) => {
   const cache = createEmotionCache()
   const { extractCriticalToChunks } = createEmotionServer(cache)
   const originalRenderPage = ctx.renderPage
@@ -59,6 +54,7 @@ MyDocument.getInitialProps = async (ctx) => {
     originalRenderPage({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
+      // eslint-disable-next-line react/display-name
       enhanceApp: (App) => (props) => <App emotionCache={cache} {...props} />,
     })
 

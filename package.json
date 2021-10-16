@@ -3,12 +3,13 @@
   "version": "3.0.0",
   "private": true,
   "scripts": {
-    "start:dev": "next dev",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@datapunt/matomo-tracker-react": "^0.5.1",
     "@emotion/cache": "^11.4.0",
     "@emotion/react": "^11.4.1",
     "@emotion/server": "^11.4.0",
@@ -16,9 +17,13 @@
     "@mui/icons-material": "^5.0.4",
     "@mui/lab": "^5.0.0-alpha.51",
     "@mui/material": "^5.0.4",
+    "@sentry/react": "^6.13.3",
+    "@sentry/tracing": "^6.13.3",
     "@types/node": "^16.11.0",
     "@types/react": "^17.0.30",
+    "@vkontakte/icons": "^1.129.0",
     "deepmerge": "^4.2.2",
+    "is-mobile": "^3.0.0",
     "next": "11.1.2",
     "next-redux-wrapper": "^7.0.5",
     "react": "17.0.2",
@@ -31,11 +36,11 @@
     "typescript": "^4.4.4"
   },
   "devDependencies": {
+    "@next/eslint-plugin-next": "^11.1.2",
     "@types/redux-logger": "^3.0.9",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
-    "eslint": "7.32.0",
-    "eslint-config-next": "11.1.2",
+    "eslint": "^7.32.0",
     "eslint-plugin-react": "^7.26.1"
   },
   "eslintConfig": {
