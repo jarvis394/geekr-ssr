@@ -59,9 +59,11 @@ const AppBar = () => {
               geekr.
             </Title>
           </TitleWrapper>
-          <IconButton sx={{ width: APP_BAR_HEIGHT, height: APP_BAR_HEIGHT }}>
-            <SettingsIcon width={24} height={24} />
-          </IconButton>
+          <Link href="/settings" underline="none">
+            <IconButton sx={{ width: APP_BAR_HEIGHT, height: APP_BAR_HEIGHT }}>
+              <SettingsIcon width={24} height={24} />
+            </IconButton>
+          </Link>
         </StyledToolbar>
       </StyledAppBar>
       <Offset />
