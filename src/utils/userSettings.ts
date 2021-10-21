@@ -33,3 +33,6 @@ export const set = (payload: Partial<UserSettings>): UserSettings => {
 
   return data
 }
+
+export const decode = (payload: string): UserSettings => JSON.parse(Buffer.from(payload, 'base64').toString())
+export const encode = (payload: UserSettings): string => Buffer.from(JSON.stringify(payload)).toString('base64')

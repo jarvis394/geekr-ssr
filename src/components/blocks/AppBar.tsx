@@ -45,7 +45,7 @@ const Title = styled(Link)(({ theme }) => ({
   display: 'flex',
   fontFamily: 'Google Sans',
   cursor: 'pointer',
-  WebkitTapHighlightColor: alpha(theme.palette.background.paper, 0.3),
+  WebkitTapHighlightColor: alpha(theme.palette.background.default, 0.3),
   userSelect: 'none',
 }))
 
@@ -59,7 +59,11 @@ const AppBar = () => {
               geekr.
             </Title>
           </TitleWrapper>
-          <Link href="/settings" underline="none">
+          <Link
+            sx={{ WebkitTapHighlightColor: 'transparent' }}
+            href="/settings"
+            underline="none"
+          >
             <IconButton sx={{ width: APP_BAR_HEIGHT, height: APP_BAR_HEIGHT }}>
               <SettingsIcon width={24} height={24} />
             </IconButton>

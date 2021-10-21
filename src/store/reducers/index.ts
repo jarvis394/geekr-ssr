@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux'
-// import feed from './feed'
+import feed from './feed'
 import settings from './settings'
 // import auth from './auth'
 // import sidebars from './sidebars'
 
 export default combineReducers({
-  // feed,
+  feed,
   settings,
   // sidebars,
   // auth,

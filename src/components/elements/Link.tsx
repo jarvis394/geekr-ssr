@@ -7,11 +7,11 @@ type NextLinkProps = Omit<MuiLinkProps, 'href' | 'classes'> &
   Pick<LinkProps, 'href' | 'as' | 'prefetch'>
 
 const NextLink = (
-  { href, as, prefetch, ...props }: LinkProps,
+  { href, as, prefetch, underline, ...props }: NextLinkProps,
   ref: Ref<LinkRef>
 ) => (
   <Link href={href} as={as} prefetch={prefetch} passHref>
-    <MuiLink ref={ref} {...props} />
+    <MuiLink ref={ref} {...props} underline={underline || 'none'} />
   </Link>
 )
 
