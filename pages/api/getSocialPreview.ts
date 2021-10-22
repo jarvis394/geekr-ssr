@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import nodeHtmlToImage from 'node-html-to-image'
 import socialPreviewHTML from 'src/config/socialPreviewHTML'
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { title, hubs } = req.query
   if (!title || !hubs) return res.status(400).json({

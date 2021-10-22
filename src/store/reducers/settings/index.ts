@@ -14,7 +14,7 @@ const settingsStore = (
     case HYDRATE: {
       return {
         ...payload.settings,
-        theme: generateTheme(payload.settings.themeID, payload.settings)
+        theme: generateTheme(payload?.settings?.themeID, payload.settings)
       }
     }
 

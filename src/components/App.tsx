@@ -39,7 +39,7 @@ const Root = styled('div')(({ theme }) => ({
 
 const App: React.FC<DocumentAppProps> = ({ Component, pageProps }) => {
   const storeDisableCookies = useSelector(
-    (store) => store.settings.cookiesPreferences.disableCookies
+    (store) => store.settings?.cookiesPreferences?.disableCookies || false
   )
   const storeTheme = useSelector((store) => store.settings.theme)
   const theme = React.useMemo(() => createTheme(storeTheme), [storeTheme])

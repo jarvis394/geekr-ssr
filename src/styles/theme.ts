@@ -42,10 +42,10 @@ const generateTheme = (
     },
   }
 
-  const customThemes = userSettings.customThemes
-  const clientThemeId = userSettings.themeID
+  const customThemes = userSettings?.customThemes
+  const clientThemeId = userSettings?.themeID
   const id = themeID || clientThemeId || DEFAULT_USER_SETTINGS.themeID
-  const customTheme = customThemes.find((e) => e.id === id)
+  const customTheme = customThemes && customThemes.find((e) => e.id === id)
   const paletteFromAppThemes = themes[id as DefaultThemeID]?.palette
 
   if (customTheme) theme.palette = customTheme.palette

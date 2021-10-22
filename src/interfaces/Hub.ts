@@ -73,7 +73,7 @@ export interface HubCompany {
   descriptionHtml: string
   id: string
   imageUrl: string
-  titleHtml: stringw
+  titleHtml: string
   statistics: {
     invest: number
     rating: number
