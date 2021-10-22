@@ -1,6 +1,7 @@
 import { Typography } from '@mui/material'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import ArticleItem from 'src/components/blocks/ArticleItem'
 import useSelector from 'src/hooks/useSelector'
 import { FetchingState } from 'src/interfaces'
 import { getArticles } from 'src/store/actions/feed'
@@ -26,15 +27,13 @@ const FeedPage = () => {
         })
       )
     }
-  }, [fetchingState])
-
-  // console.log(data)
+  }, [fetchingState, dispatch])
 
   return (
     <div>
       {fetchingState === FetchingState.Fetched &&
         data.articleIds.map((e) => (
-          <Typography key={e}>{data.articleRefs[e].titleHtml}</Typography>
+          <ArticleItem data={data.articleRefs[e]} key={e} />
         ))}
     </div>
   )

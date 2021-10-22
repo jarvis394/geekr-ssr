@@ -3,12 +3,8 @@ import generateTheme from 'src/styles/theme'
 import * as userSettings from 'src/utils/userSettings'
 import { HYDRATE } from 'next-redux-wrapper'
 import { AnyAction } from 'redux'
-import { DEFAULT_USER_SETTINGS } from 'src/config/constants'
 
-const initialState: State = {
-  theme: generateTheme(DEFAULT_USER_SETTINGS.themeID),
-  ...DEFAULT_USER_SETTINGS
-} as State
+const initialState: State = {} as State
 
 const settingsStore = (
   state = initialState,
@@ -16,30 +12,29 @@ const settingsStore = (
 ): State => {
   switch (type) {
     case HYDRATE: {
-      state = payload.settings
-      state.theme = generateTheme(state.themeID)
-      return state
+      return {
+        ...payload.settings,
+        theme: generateTheme(payload.settings.themeID, payload.settings)
+      }
     }
+
     case SET_SETTINGS: {
       const newSettings = userSettings.set(payload)
       const shouldUpdateTheme = !!payload.themeID
-      state = {
+      return {
         ...newSettings,
         theme: shouldUpdateTheme
-          ? generateTheme(newSettings.themeID)
+          ? generateTheme(newSettings.themeID, newSettings)
           : state.theme,
       }
-      return state
     }
 
     case GET_SETTINGS:
       return { theme: state.theme, ...userSettings.get() }
 
     case INIT_SETTINGS_STORE: {
-      const userLocalSettings = userSettings.get()
-      const theme = generateTheme(userLocalSettings.themeID)
-      state = { theme, ...userLocalSettings }
-      return state
+      const theme = generateTheme(state.themeID, state)
+      return { ...state, theme }
     }
 
     default:

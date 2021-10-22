@@ -28,6 +28,7 @@
     "is-mobile": "^3.0.0",
     "next": "11.1.2",
     "next-redux-wrapper": "^7.0.5",
+    "next-themes": "^0.0.15",
     "node-html-to-image": "^3.2.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -41,10 +42,13 @@
   "devDependencies": {
     "@next/eslint-plugin-next": "^11.1.2",
     "@types/redux-logger": "^3.0.9",
+    "@types/webpack-env": "^1.16.3",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^7.32.0",
+    "eslint-config-next": "^11.1.2",
     "eslint-plugin-react": "^7.26.1",
+    "next-redux-cookie-wrapper": "^2.1.0",
     "puppeteer": "^3.3.0"
   },
   "eslintConfig": {

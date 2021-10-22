@@ -1,6 +1,6 @@
 module.exports = {
-  reactStrictMode: true,
   images: {
-    domains: ['habrastorage.org']
-  }
+    domains: ['habrastorage.org'],
+  },
+  webpack5: true,
 }

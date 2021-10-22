@@ -22,15 +22,16 @@ type FetchFulfulledPayload = {
 }
 type FetchRejectedPayload = { mode: FeedMode; data: AxiosError; page: number }
 
-const initialModeState: StateMode = {
-  fetchError: null,
-  state: FetchingState.Idle,
-  pages: {} as StateMode['pages'],
-  pagesCount: null,
-  lastUpdated: null,
-}
 const initialState: State = { modes: {} } as State
-FEED_MODES.forEach((e) => (initialState.modes[e.mode] = initialModeState))
+FEED_MODES.forEach((e) => {
+  initialState.modes[e.mode] = {
+    fetchError: null,
+    state: FetchingState.Idle,
+    pages: {} as StateMode['pages'],
+    pagesCount: null,
+    lastUpdated: null,
+  }
+})
 
 const feedStore = (
   state = initialState,
@@ -38,38 +39,69 @@ const feedStore = (
 ): State => {
   switch (type) {
     case HYDRATE: {
-      return { ...state, ...payload }
+      return { ...state, ...payload.feed }
     }
 
     case FEED_FETCH: {
       const { mode, page } = payload as FetchPayload
-      state.modes[mode].state = FetchingState.Fetching
-      state.modes[mode].pages[page] = null
-      state.modes[mode].fetchError = null
-      state.modes[mode].lastUpdated = null
-      return state
+      return {
+        ...state,
+        modes: {
+          ...state.modes,
+          [mode]: {
+            state: FetchingState.Fetching,
+            pages: {
+              ...state.modes[mode].pages,
+              [page]: null,
+            },
+            fetchError: null,
+            lastUpdated: null,
+          },
+        },
+      }
     }
 
     case FEED_FETCH_FULFILLED: {
       const { mode, data, page, pagesCount } = payload as FetchFulfulledPayload
-      state.modes[mode].state = FetchingState.Fetched
-      state.modes[mode].pages[page] = {
-        articleRefs: data.articleRefs,
-        articleIds: data.articleIds,
+      return {
+        ...state,
+        modes: {
+          ...state.modes,
+          [mode]: {
+            ...state.modes[mode],
+            state: FetchingState.Fetched,
+            pages: {
+              ...state.modes[mode].pages,
+              [page]: {
+                articleRefs: data.articleRefs,
+                articleIds: data.articleIds,
+              },
+            },
+            pagesCount: pagesCount,
+            fetchError: null,
+            lastUpdated: Date.now(),
+          },
+        },
       }
-      state.modes[mode].pagesCount = pagesCount
-      state.modes[mode].fetchError = null
-      state.modes[mode].lastUpdated = Date.now()
-      return state
     }
 
     case FEED_FETCH_REJECTED: {
       const { mode, data, page } = payload as FetchRejectedPayload
-      state.modes[mode].state = FetchingState.Fetched
-      state.modes[mode].fetchError = data
-      state.modes[mode].pages[page] = null
-      state.modes[mode].lastUpdated = null
-      return state
+      return {
+        ...state,
+        modes: {
+          ...state.modes,
+          [mode]: {
+            state: FetchingState.Error,
+            pages: {
+              ...state.modes[mode].pages,
+              [page]: null,
+            },
+            fetchError: data,
+            lastUpdated: null,
+          },
+        },
+      }
     }
 
     default:

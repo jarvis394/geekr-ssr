@@ -24,14 +24,6 @@ export default class AppDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Google+Sans:400,500,700&display=swap"
             rel="stylesheet"
           />
-          {/* <link
-            href="%PUBLIC_URL%/fonts/Arial/stylesheet.css"
-            rel="stylesheet"
-          />
-          <link
-            href="%PUBLIC_URL%/fonts/SegoeUI/stylesheet.css"
-            rel="stylesheet"
-          /> */}
           <link
             href="https://fonts.googleapis.com/icon?family=Material+Icons"
             rel="stylesheet"

@@ -10,7 +10,7 @@ const Home = () => {
       <Head>
         <title>geekr.</title>
       </Head>
-      
+      <Link href="/feed">to feed</Link>
     </>
   )
 }

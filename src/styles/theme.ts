@@ -1,12 +1,15 @@
 import { ThemeOptions } from '@mui/material/styles'
-import * as userSettings from 'src/utils/userSettings'
 import DefaultThemeID from 'src/interfaces/DefaultThemeID'
 import { APP_BAR_HEIGHT, DEFAULT_USER_SETTINGS } from 'src/config/constants'
 import themes from 'src/config/themes'
+import { UserSettings } from 'src/interfaces'
 
-const generateTheme = (themeID?: DefaultThemeID | string): ThemeOptions => {
-  // const defaultPalette = themes[id as DefaultThemeID]?.palette
-  const defaultPalette = themes[DEFAULT_USER_SETTINGS.themeID as DefaultThemeID].palette
+const generateTheme = (
+  themeID?: DefaultThemeID | string,
+  userSettings?: UserSettings
+): ThemeOptions => {
+  const defaultPalette =
+    themes[DEFAULT_USER_SETTINGS.themeID as DefaultThemeID].palette
   const theme: ThemeOptions = {
     palette: defaultPalette,
     shape: { borderRadius: 4 },
@@ -14,7 +17,7 @@ const generateTheme = (themeID?: DefaultThemeID | string): ThemeOptions => {
       toolbar: {
         height: APP_BAR_HEIGHT,
         minHeight: APP_BAR_HEIGHT,
-      }
+      },
     },
     components: {
       MuiPaper: {
@@ -39,13 +42,10 @@ const generateTheme = (themeID?: DefaultThemeID | string): ThemeOptions => {
     },
   }
 
-  if (typeof window === 'undefined') return theme
-
-  const localStorageUserSettings = userSettings.get()
-  const localStorageCustomThemes = localStorageUserSettings.customThemes
-  const localStorageThemeID = localStorageUserSettings.themeID
-  const id = themeID || localStorageThemeID || DEFAULT_USER_SETTINGS.themeID
-  const customTheme = localStorageCustomThemes.find((e) => e.id === id)
+  const customThemes = userSettings.customThemes
+  const clientThemeId = userSettings.themeID
+  const id = themeID || clientThemeId || DEFAULT_USER_SETTINGS.themeID
+  const customTheme = customThemes.find((e) => e.id === id)
   const paletteFromAppThemes = themes[id as DefaultThemeID]?.palette
 
   if (customTheme) theme.palette = customTheme.palette

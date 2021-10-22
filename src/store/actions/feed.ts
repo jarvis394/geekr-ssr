@@ -17,22 +17,17 @@ interface GetPostsParams {
 }
 
 export const getArticles =
-  ({ mode, page, flow, forceUpdate = false }: GetPostsParams) =>
-  async (dispatch, getState: () => RootState) => {
+  (params: GetPostsParams) => async (dispatch, getState: () => RootState) => {
+    const { mode, page, flow, forceUpdate = false } = params
     // Get data from root store to find out if we're going to fetch a data or not
     const storeState = getState()
     const storeData = storeState.feed.modes[mode].pages[page]
-    // const authData = storeState.auth.authorizedRequestData
-    // const storeData =
-    //   flow === 'all'
-    //     ? storeState.feed.data[mode].pages[page]
-    //     : storeState.feed.flows.data[flow][mode].pages[page]
 
     if (!shouldUpdate(storeData) && !forceUpdate) {
       return Promise.resolve()
     }
 
-    dispatch({ type: FEED_FETCH, payload: { mode, flow } })
+    dispatch({ type: FEED_FETCH, payload: { mode, page, flow } })
 
     try {
       const data = await api.articles.get({ mode, page, flow })

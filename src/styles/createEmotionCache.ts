@@ -1,5 +1,7 @@
 import createCache from '@emotion/cache'
 
-const createEmotionCache = () => createCache({ key: 'geekr' })
+function createEmotionCache() {
+  return createCache({ key: 'geekr' })
+}
 
 export default createEmotionCache
