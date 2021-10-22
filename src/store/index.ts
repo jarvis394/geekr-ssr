@@ -16,7 +16,6 @@ export const makeStore = (_context: Context) => {
   const middlewares: Middleware[] = [
     nextReduxCookieMiddleware({
       subtrees: ['settings'],
-      compress: false,
     }),
     thunkMiddleware,
   ]

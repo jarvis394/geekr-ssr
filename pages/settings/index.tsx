@@ -1,14 +1,13 @@
-import { Button, Container, Paper, Typography } from '@mui/material'
+import { Button, Container, Paper } from '@mui/material'
 import React from 'react'
 import Link from 'src/components/elements/Link'
 import Head from 'next/head'
 import { useDispatch } from 'react-redux'
 import { setSettings } from 'src/store/actions/settings'
-import { InferGetStaticPropsType, NextPage } from 'next'
 
-const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
-  socialPreviewURL,
-}) => {
+const Page = () => {
+  const socialPreviewURL =
+    'https://habra.jarvis394.ml/social?t=asd&s=dsa'
   const dispatch = useDispatch()
   const setDarkTheme = () => dispatch(setSettings({ themeID: 'dark' }))
   const setLightTheme = () => dispatch(setSettings({ themeID: 'light' }))
@@ -49,17 +48,6 @@ const Page: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       </Paper>
     </>
   )
-}
-
-export const getStaticProps = () => {
-  const socialPreviewURL =
-    'https://geekr-ssr.vercel.app/api/getSocialPreview?title=asd&hubs=dsa'
-
-  return {
-    props: {
-      socialPreviewURL,
-    },
-  }
 }
 
 export default Page

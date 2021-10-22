@@ -3,8 +3,11 @@ import generateTheme from 'src/styles/theme'
 import * as userSettings from 'src/utils/userSettings'
 import { HYDRATE } from 'next-redux-wrapper'
 import { AnyAction } from 'redux'
+import { DEFAULT_USER_SETTINGS } from 'src/config/constants'
 
-const initialState: State = {} as State
+const initialState: State = {
+  ...DEFAULT_USER_SETTINGS,
+} as State
 
 const settingsStore = (
   state = initialState,
@@ -13,8 +16,9 @@ const settingsStore = (
   switch (type) {
     case HYDRATE: {
       return {
+        ...state,
         ...payload.settings,
-        theme: generateTheme(payload?.settings?.themeID, payload.settings)
+        theme: generateTheme(payload?.settings?.themeID, payload.settings),
       }
     }
 
