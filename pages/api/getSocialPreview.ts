@@ -1,18 +1,29 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import nodeHtmlToImage from 'node-html-to-image'
-import socialPreviewHTML from 'src/config/socialPreviewHTML'
+import generateSocialPreview from 'src/lib/generateSocialPreview'
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { title, hubs } = req.query
-  if (!title || !hubs) return res.status(400).json({
-    error: true,
-    message: 'No title or hubs present in request query',
-    statusCode: 400
-  })
+  const { title, hub } = req.query
+  if (!title || !hub)
+    return res.status(400).json({
+      error: true,
+      message: 'No title or hub present in request query',
+      statusCode: 400,
+    })
 
-  const image = await nodeHtmlToImage({
-    html: socialPreviewHTML(title as string, hubs as string),
-  })
-  return res.end(image)
+  try {
+    const coverStream = await generateSocialPreview({
+      title,
+      hub,
+    })
+
+    res.statusCode = 200
+    res.setHeader('Content-Type', 'image/png')
+    res.setHeader('Content-Control', 'public, max-age=31536000')
+
+    coverStream.pipe(res)
+  } catch (error) {
+    res.statusCode = 500
+    res.end((error as Error).message)
+  }
 }

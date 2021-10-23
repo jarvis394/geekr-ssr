@@ -6,7 +6,7 @@ export const APP_VERSION = 'v3'
 export const API_URL = 'https://habr.com/kek/'
 export const API_TOKEN_URL = 'https://habra.jarvis394.ml/'
 export const MATOMO_SERVER_URL = 'https://matomo.jarvis394.ml/'
-export const MATOMO_SITE_ID = 1
+export const MATOMO_SITE_ID = 2
 export const SENTRY_DSN =
   'https://a2e39aec97c844269660ef4e0db0c264@o929832.ingest.sentry.io/5878570'
 

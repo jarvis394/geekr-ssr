@@ -20,3 +20,10 @@ yarn-error.log*
 /coverage
 
 .next
+
+# Sentry
+.sentryclirc
+
+public/sw.js*
+public/workbox*
+public/worker*
