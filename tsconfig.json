@@ -31,8 +31,9 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": [
-    "src"
-, "pages"  ],
+    "src",
+    "pages"
+  ],
   "exclude": [
     "node_modules"
   ]
