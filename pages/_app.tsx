@@ -24,7 +24,6 @@ const DocumentApp = (props: DocumentAppProps) => {
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
       // Try to register the SW when client side is loaded
-      console.log('Trying to register SW...')
       sw.register(serviceWorkerConfig)
     }
   }, [])
