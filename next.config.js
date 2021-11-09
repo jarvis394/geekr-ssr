@@ -11,10 +11,12 @@ const moduleExports = {
   webpack5: true,
   pwa: {
     dest: 'public',
+    register: false,
+    skipWaiting: false,
   },
   env: {
     PUBLIC_URL: 'https://geekr-ssr.vercel.app',
-  }
+  },
 }
 
 const sentryWebpackPluginOptions = {

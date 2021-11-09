@@ -18,6 +18,7 @@ export const BOTTOM_BAR_HEIGHT = 56
 /** App keys */
 export const APP_KEYS_PREFIX = 'geekr_'
 export const USER_SETTINGS_KEY = APP_KEYS_PREFIX + 'userSettings'
+export const NEEDS_UPDATE_KEY = APP_KEYS_PREFIX + 'needsUpdate'
 
 export const DEFAULT_USER_SETTINGS: UserSettings = {
   themeID: 'light',

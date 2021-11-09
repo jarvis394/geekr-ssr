@@ -35,7 +35,8 @@ export default async <T = never>({
   authData,
 }: Arguments): Promise<T> => {
   const tokenRequestParams = new URLSearchParams(params)
-  const settingsLanguage = userSettings.get().language.feed
+  const settingsLanguage =
+    typeof window !== 'undefined' && userSettings.get().language.feed
   const language = paramsLanguage || settingsLanguage
   tokenRequestParams.append('fl', language)
   tokenRequestParams.append('hl', language)

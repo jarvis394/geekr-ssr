@@ -6,6 +6,8 @@ import Head from 'next/head'
 import App from 'src/components/App'
 import { wrapper } from 'src/store'
 import { INIT_SETTINGS_STORE } from 'src/store/reducers/settings/types'
+import * as sw from 'src/lib/serviceWorker'
+import serviceWorkerConfig from 'src/config/serviceWorkerConfig'
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache()
@@ -18,6 +20,14 @@ export interface DocumentAppProps {
 
 const DocumentApp = (props: DocumentAppProps) => {
   const { emotionCache = clientSideEmotionCache } = props
+
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Try to register the SW when client side is loaded
+      console.log('Trying to register SW...')
+      sw.register(serviceWorkerConfig)
+    }
+  }, [])
 
   return (
     <>
