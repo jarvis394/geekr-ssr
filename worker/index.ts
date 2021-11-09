@@ -17,7 +17,7 @@ declare const self: ServiceWorkerGlobalScope
 // Disable logging in dev environment
 self.__WB_DISABLE_DEV_LOGS = true
 
-clientsClaim()
+// clientsClaim()
 
 console.log('self.__WB_MANIFEST', self.__WB_MANIFEST)
 
