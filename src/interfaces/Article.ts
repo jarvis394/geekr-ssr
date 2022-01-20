@@ -61,9 +61,9 @@ export default interface Article {
     votesCount: number
   }
   tags: { titleHtml: string }[]
-  textHtml: string
   timePublished: string
   titleHtml: string
+  textHtml: string
   translationData: {
     originalAuthorName: string
     originalUrl: string
@@ -80,8 +80,8 @@ export default interface Article {
       voteTimeExpired: string
     }
   }
+  votesEnabled: boolean
 
   /** Contains an URL of the first image in text preview */
-  postFirstImage?: string
-  votesEnabled: boolean
+  leadImage?: string
 }

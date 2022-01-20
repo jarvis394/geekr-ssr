@@ -11,8 +11,8 @@ const moduleExports = {
   webpack5: true,
   pwa: {
     dest: 'public',
-    register: false,
-    skipWaiting: false,
+    register: true,
+    skipWaiting: true,
   },
   env: {
     PUBLIC_URL: 'https://geekr-ssr.vercel.app',

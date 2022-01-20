@@ -1,5 +1,4 @@
 import { AxiosError } from 'axios'
-import { AnyAction } from 'redux'
 import { FEED_MODES } from 'src/config/constants'
 import ArticlesResponse from 'src/interfaces/ArticlesResponse'
 import { FeedMode } from 'src/interfaces/FeedMode'
@@ -12,9 +11,11 @@ import {
   StateMode,
 } from './types'
 import { HYDRATE } from 'next-redux-wrapper'
+import produce from 'immer'
+import getPostLeadImage from 'src/utils/getPostLeadImage'
 
 type FetchPayload = { mode: FeedMode; page: number }
-type FetchFulfulledPayload = {
+type FetchFulfilledPayload = {
   mode: FeedMode
   data: ArticlesResponse
   page: number
@@ -32,81 +33,48 @@ FEED_MODES.forEach((e) => {
     lastUpdated: null,
   }
 })
-
-const feedStore = (
-  state = initialState,
-  { type, payload }: AnyAction
-): State => {
+export default produce((draft, { type, payload }) => {
   switch (type) {
     case HYDRATE: {
-      return { ...state, ...payload.feed }
+      draft = payload
+      break
     }
-
     case FEED_FETCH: {
       const { mode, page } = payload as FetchPayload
-      return {
-        ...state,
-        modes: {
-          ...state.modes,
-          [mode]: {
-            state: FetchingState.Fetching,
-            pages: {
-              ...state.modes[mode].pages,
-              [page]: null,
-            },
-            fetchError: null,
-            lastUpdated: null,
-          },
-        },
-      }
+      draft.modes[mode].state = FetchingState.Fetching
+      draft.modes[mode].fetchError = null
+      draft.modes[mode].lastUpdated = null
+      draft.modes[mode].pages[page] = null
+      break
     }
-
     case FEED_FETCH_FULFILLED: {
-      const { mode, data, page, pagesCount } = payload as FetchFulfulledPayload
-      return {
-        ...state,
-        modes: {
-          ...state.modes,
-          [mode]: {
-            ...state.modes[mode],
-            state: FetchingState.Fetched,
-            pages: {
-              ...state.modes[mode].pages,
-              [page]: {
-                articleRefs: data.articleRefs,
-                articleIds: data.articleIds,
-              },
-            },
-            pagesCount: pagesCount,
-            fetchError: null,
-            lastUpdated: Date.now(),
-          },
-        },
-      }
-    }
+      const { mode, data, page, pagesCount } = payload as FetchFulfilledPayload
 
+      for (const id in data.articleRefs) {
+        data.articleRefs[id].leadImage = getPostLeadImage(
+          data.articleRefs[id]
+        )
+      }
+
+      draft.modes[mode].state = FetchingState.Fetched
+      draft.modes[mode].pages[page] = {
+        articleRefs: data.articleRefs,
+        articleIds: data.articleIds,
+        lastUpdated: Date.now()
+      }
+      draft.modes[mode].pagesCount = pagesCount
+      draft.modes[mode].fetchError = null
+      break
+    }
     case FEED_FETCH_REJECTED: {
       const { mode, data, page } = payload as FetchRejectedPayload
-      return {
-        ...state,
-        modes: {
-          ...state.modes,
-          [mode]: {
-            state: FetchingState.Error,
-            pages: {
-              ...state.modes[mode].pages,
-              [page]: null,
-            },
-            fetchError: data,
-            lastUpdated: null,
-          },
-        },
-      }
+      draft.modes[mode].state = FetchingState.Error
+      draft.modes[mode].pages[page] = null
+      draft.modes[mode].fetchError = data
+      draft.modes[mode].lastUpdated = null
+      break
     }
-
     default:
-      return state
+      break
   }
-}
-
-export default feedStore
+}, initialState)

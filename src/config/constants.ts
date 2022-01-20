@@ -14,6 +14,8 @@ export const APP_MAX_WIDTH = 1280
 export const APP_BAR_HEIGHT = 48
 export const CHROME_ADDRESS_BAR_HEIGHT = 56
 export const BOTTOM_BAR_HEIGHT = 56
+export const LAZY_LOAD_VISIBILITY_THRESHOLD = -200
+export const ARTICLE_IMAGE_HEIGHT = 212
 
 /** App keys */
 export const APP_KEYS_PREFIX = 'geekr_'

@@ -8,6 +8,7 @@ import { wrapper } from 'src/store'
 import { INIT_SETTINGS_STORE } from 'src/store/reducers/settings/types'
 import * as sw from 'src/lib/serviceWorker'
 import serviceWorkerConfig from 'src/config/serviceWorkerConfig'
+import 'react-photoswipe/dist/photoswipe.css'
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache()

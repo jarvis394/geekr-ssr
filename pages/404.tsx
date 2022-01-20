@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography, styled } from '@mui/material'
+import { Typography, styled, Box } from '@mui/material'
 import Link from 'src/components/elements/Link'
 import isMobile from 'is-mobile'
 import {
@@ -8,7 +8,7 @@ import {
   BOTTOM_BAR_HEIGHT,
 } from 'src/config/constants'
 
-const Root = styled('div')(() => ({
+const Root = styled(Box)(() => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',

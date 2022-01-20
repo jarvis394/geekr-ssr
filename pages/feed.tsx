@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material'
+import { Box, styled, Typography } from '@mui/material'
 import { NextPage } from 'next'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
@@ -6,6 +6,12 @@ import ArticleItem from 'src/components/blocks/ArticleItem'
 import useSelector from 'src/hooks/useSelector'
 import { FetchingState } from 'src/interfaces'
 import { getArticles } from 'src/store/actions/feed'
+
+const Root = styled(Box)({
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+})
 
 const FeedPage: NextPage = () => {
   const data = useSelector((store) => store.feed.modes.daily.pages[1])
@@ -31,7 +37,7 @@ const FeedPage: NextPage = () => {
   }, [fetchingState, dispatch])
 
   return (
-    <div>
+    <Root>
       {fetchingState === FetchingState.Fetching && (
         <Typography variant="body1">Fetching...</Typography>
       )}
@@ -47,7 +53,7 @@ const FeedPage: NextPage = () => {
         data.articleIds.map((e) => (
           <ArticleItem data={data.articleRefs[e]} key={e} />
         ))}
-    </div>
+    </Root>
   )
 }
 

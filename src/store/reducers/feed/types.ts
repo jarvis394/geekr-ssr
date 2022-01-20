@@ -10,7 +10,10 @@ export const FEED_FETCH_REJECTED = PREFIX + 'FETCH_REJECTED'
 export interface StateMode {
   state: FetchingState
   fetchError: AxiosError
-  pages: Record<number, Omit<ArticlesResponse, 'pagesCount'>>
+  pages: Record<
+    number,
+    Omit<ArticlesResponse, 'pagesCount'> & { lastUpdated: number }
+  >
   pagesCount: number
   lastUpdated: number
 }
