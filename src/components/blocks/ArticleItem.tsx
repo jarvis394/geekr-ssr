@@ -4,6 +4,9 @@ import { ARTICLE_IMAGE_HEIGHT } from 'src/config/constants'
 import { Article } from 'src/interfaces'
 import parsePreviewTextHtml from 'src/utils/parsePreviewTextHtml'
 import LazyImage from './LazyImage'
+import dayjs from 'dayjs'
+import numberToWordsRu from 'number-to-words-ru'
+import formatViewCount from 'src/utils/formatViewsCount'
 
 const Root = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -66,12 +69,12 @@ const Bullet = styled('span')(({ theme }) => ({
 
 const ArticleItem: React.FC<{ data: Article }> = ({ data }) => {
   const parsedPreviewText = parsePreviewTextHtml(data.leadData.textHtml)
-  const timestamp = data.timePublished
-  const views = data.statistics.readingCount
+  const timestamp = dayjs(data.timePublished).calendar()
+  const views = formatViewCount(data.statistics.readingCount)
 
   return (
     <Root>
-      <LeadImage src={data.leadImage} />
+      {data.leadImage && <LeadImage src={data.leadImage} />}
       <TimestampContainer>
         {timestamp}
         <Bullet />

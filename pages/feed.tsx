@@ -14,10 +14,10 @@ const Root = styled(Box)({
 })
 
 const FeedPage: NextPage = () => {
-  const data = useSelector((store) => store.feed.modes.daily.pages[1])
-  const fetchingState = useSelector((store) => store.feed.modes.daily.state)
+  const data = useSelector((store) => store.feed.modes.monthly.pages[1])
+  const fetchingState = useSelector((store) => store.feed.modes.monthly.state)
   const fetchingError = useSelector(
-    (store) => store.feed.modes.daily.fetchError
+    (store) => store.feed.modes.monthly.fetchError
   )
   const dispatch = useDispatch()
 
@@ -28,7 +28,7 @@ const FeedPage: NextPage = () => {
     ) {
       dispatch(
         getArticles({
-          mode: 'daily',
+          mode: 'monthly',
           page: 1,
           flow: 'all',
         })

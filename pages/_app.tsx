@@ -9,9 +9,35 @@ import { INIT_SETTINGS_STORE } from 'src/store/reducers/settings/types'
 import * as sw from 'src/lib/serviceWorker'
 import serviceWorkerConfig from 'src/config/serviceWorkerConfig'
 import 'react-photoswipe/dist/photoswipe.css'
+import dayjs from 'dayjs'
+import relativeTimePlugin from 'dayjs/plugin/relativeTime'
+import calendarPlugin from 'dayjs/plugin/calendar'
+import updateLocalePlugin from 'dayjs/plugin/updateLocale'
+import 'dayjs/locale/ru'
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache()
+
+dayjs.extend(relativeTimePlugin)
+dayjs.extend(calendarPlugin)
+dayjs.extend(updateLocalePlugin)
+
+dayjs.updateLocale('ru', {
+  calendar: {
+    lastWeek: 'D MMMM, в hh:mm',
+    sameDay: 'Сегодня, в hh:mm',
+    lastDay: 'Вчера, в hh:mm',
+    sameElse: 'D MMMM, YYYY',
+  },
+})
+dayjs.updateLocale('en', {
+  calendar: {
+    lastWeek: 'D MMMM, at hh:mm',
+    sameDay: 'Today, at hh:mm',
+    lastDay: 'Yesterday, at hh:mm',
+    sameElse: 'D MMMM, YYYY',
+  },
+})
 
 export interface DocumentAppProps {
   Component: React.FC

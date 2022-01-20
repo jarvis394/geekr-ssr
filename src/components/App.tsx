@@ -11,6 +11,7 @@ import {
   MATOMO_SITE_ID,
 } from 'src/config/constants'
 import useAnalytics from 'src/hooks/useAnalytics'
+import useDayjsLocaleChange from 'src/hooks/useDayjsLocaleChange'
 import useSelector from 'src/hooks/useSelector'
 import isDarkTheme from 'src/utils/isDarkTheme'
 import { DocumentAppProps } from 'pages/_app'
@@ -43,6 +44,18 @@ const App: React.FC<DocumentAppProps> = ({ Component, pageProps }) => {
   )
   const storeTheme = useSelector((store) => store.settings.theme)
   const theme = React.useMemo(() => createTheme(storeTheme), [storeTheme])
+  const matomoInstanceOptions = {
+    urlBase: MATOMO_SERVER_URL,
+    siteId: MATOMO_SITE_ID,
+    linkTracking: false,
+    configurations: {
+      setRequestMethod: 'POST',
+      setRequestContentType: 'application/json',
+      setDoNotTrack: false,
+      setSecureCookie: true,
+      disableCookies: storeDisableCookies,
+    },
+  }
   const globalStyles = React.useMemo(
     () => ({
       body: {
@@ -91,19 +104,7 @@ const App: React.FC<DocumentAppProps> = ({ Component, pageProps }) => {
   )
 
   useAnalytics()
-
-  const matomoInstanceOptions = {
-    urlBase: MATOMO_SERVER_URL,
-    siteId: MATOMO_SITE_ID,
-    linkTracking: false,
-    configurations: {
-      setRequestMethod: 'POST',
-      setRequestContentType: 'application/json',
-      setDoNotTrack: false,
-      setSecureCookie: true,
-      disableCookies: storeDisableCookies,
-    },
-  }
+  useDayjsLocaleChange()
 
   return (
     <MatomoProvider value={createInstance(matomoInstanceOptions)}>
