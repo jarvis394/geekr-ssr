@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, styled, SxProps, Theme } from '@mui/material'
+import { Avatar, styled } from '@mui/material'
 import UserPlaceholder from 'src/components/svg/UserPlaceholder'
 
 const StyledAvatar = styled(Avatar)(({ theme }) => ({

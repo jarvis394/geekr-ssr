@@ -1,4 +1,4 @@
-import UserSettings from 'src/interfaces/UserSettings'
+import UserSettings from 'src/types/UserSettings'
 import { DEFAULT_USER_SETTINGS, USER_SETTINGS_KEY } from 'src/config/constants'
 import deepmerge from 'deepmerge'
 

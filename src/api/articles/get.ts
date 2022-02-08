@@ -1,6 +1,6 @@
 import makeRequest from '../makeRequest'
-import { AuthorizedRequestParams, FlowAlias, ArticlesResponse } from 'src/interfaces'
-import { FeedMode } from 'src/interfaces/FeedMode'
+import { AuthorizedRequestParams, FlowAlias, ArticlesResponse } from 'src/types'
+import { FeedMode } from 'src/types/FeedMode'
 
 export const modeParams = {
   all: { sort: 'rating' },

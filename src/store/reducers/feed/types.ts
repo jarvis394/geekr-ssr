@@ -1,6 +1,6 @@
-import FetchingState from 'src/interfaces/FetchingState'
+import FetchingState from 'src/types/FetchingState'
 import { AxiosError } from 'axios'
-import ArticlesResponse from 'src/interfaces/ArticlesResponse'
+import ArticlesResponse from 'src/types/ArticlesResponse'
 
 export const PREFIX = 'FEED_'
 export const FEED_FETCH = PREFIX + 'FETCH'

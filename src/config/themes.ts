@@ -1,7 +1,7 @@
 import { alpha, darken, lighten } from '@mui/material'
 import { blue } from '@mui/material/colors'
-import DefaultThemeID from 'src/interfaces/DefaultThemeID'
-import { CustomTheme } from 'src/interfaces/UserSettings'
+import DefaultThemeID from 'src/types/DefaultThemeID'
+import { CustomTheme } from 'src/types/UserSettings'
 
 declare module '@mui/material/styles/createPalette' {
   interface Palette {

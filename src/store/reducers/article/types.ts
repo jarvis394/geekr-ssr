@@ -1,7 +1,7 @@
-import FetchingState from 'src/interfaces/FetchingState'
+import FetchingState from 'src/types/FetchingState'
 import { AxiosError } from 'axios'
-import { Article } from 'src/interfaces'
-import Comments from 'src/interfaces/Comments'
+import { Article } from 'src/types'
+import Comments from 'src/types/Comments'
 
 export const PREFIX = 'ARTICLE_'
 export const ARTICLE_FETCH = PREFIX + 'FETCH'

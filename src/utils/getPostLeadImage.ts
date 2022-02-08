@@ -1,4 +1,4 @@
-import { Article } from 'src/interfaces'
+import { Article } from 'src/types'
 import getImagesFromText from './getImagesFromText'
 
 export default (post: Article) => {

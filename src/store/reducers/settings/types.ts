@@ -1,5 +1,5 @@
 import { ThemeOptions } from '@mui/material'
-import UserSettings from 'src/interfaces/UserSettings'
+import UserSettings from 'src/types/UserSettings'
 
 export const PREFIX = 'SETTINGS_'
 export const SET_SETTINGS = PREFIX + 'SET'

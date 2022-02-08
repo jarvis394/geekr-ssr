@@ -1,5 +1,5 @@
 import * as api from 'src/api'
-import FlowAlias from 'src/interfaces/FlowAlias'
+import FlowAlias from 'src/types/FlowAlias'
 import shouldUpdate from 'src/utils/shouldUpdate'
 import { RootState } from '..'
 import {
@@ -7,7 +7,7 @@ import {
   FEED_FETCH_REJECTED,
   FEED_FETCH,
 } from 'src/store/reducers/feed/types'
-import { FeedMode } from 'src/interfaces'
+import { FeedMode } from 'src/types'
 
 interface GetPostsParams {
   mode: FeedMode

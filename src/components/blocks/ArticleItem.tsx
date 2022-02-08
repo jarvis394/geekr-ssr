@@ -1,7 +1,7 @@
 import { styled, Typography, alpha, Divider, Box, Link } from '@mui/material'
 import React from 'react'
 import { ARTICLE_IMAGE_HEIGHT } from 'src/config/constants'
-import { Article } from 'src/interfaces'
+import { Article } from 'src/types'
 import parsePreviewTextHtml from 'src/utils/parsePreviewTextHtml'
 import LazyImage from './LazyImage'
 import dayjs from 'dayjs'
@@ -38,6 +38,11 @@ const PreviewText = styled(Typography)(({ theme }) => ({
   lineHeight: 1.45,
   paddingLeft: theme.spacing(2),
   paddingRight: theme.spacing(2),
+  textOverflow: 'ellipsis',
+  display: '-webkit-box',
+  WebkitLineClamp: 6,
+  overflow: 'hidden',
+  WebkitBoxOrient: 'vertical',
 }))
 
 const LeadImage = styled(LazyImage)(({ theme }) => ({

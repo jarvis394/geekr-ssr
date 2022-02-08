@@ -8,6 +8,7 @@ import {
   nextReduxCookieMiddleware,
   wrapMakeStore,
 } from 'next-redux-cookie-wrapper'
+import * as log from 'src/lib/logger'
 
 export type RootState = ReturnType<typeof reducers>
 export type RootStore = Store<RootState>
@@ -31,7 +32,7 @@ export const makeStore = (_context: Context) => {
 
   if (module.hot) {
     module.hot.accept('./reducers', () => {
-      console.log('Replacing reducer')
+      log.info('hot reload: Replacing reducer')
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       store.replaceReducer(require('./reducers').default)
     })

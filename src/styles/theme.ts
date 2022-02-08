@@ -1,8 +1,8 @@
 import { ThemeOptions } from '@mui/material/styles'
-import DefaultThemeID from 'src/interfaces/DefaultThemeID'
+import DefaultThemeID from 'src/types/DefaultThemeID'
 import { APP_BAR_HEIGHT, DEFAULT_USER_SETTINGS } from 'src/config/constants'
 import themes from 'src/config/themes'
-import { UserSettings } from 'src/interfaces'
+import { UserSettings } from 'src/types'
 
 const generateTheme = (
   themeID?: DefaultThemeID | string,

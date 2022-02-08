@@ -4,8 +4,9 @@ import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import ArticleItem from 'src/components/blocks/ArticleItem'
 import useSelector from 'src/hooks/useSelector'
-import { FetchingState } from 'src/interfaces'
+import { FetchingState } from 'src/types'
 import { getArticles } from 'src/store/actions/feed'
+import FeedPageSkeleton from 'src/components/skeletons/FeedPage'
 
 const Root = styled(Box)({
   display: 'flex',
@@ -38,9 +39,7 @@ const FeedPage: NextPage = () => {
 
   return (
     <Root>
-      {fetchingState === FetchingState.Fetching && (
-        <Typography variant="body1">Fetching...</Typography>
-      )}
+      {fetchingState === FetchingState.Fetching && <FeedPageSkeleton />}
       {fetchingState === FetchingState.Error && (
         <Typography
           variant="body1"

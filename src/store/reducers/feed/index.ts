@@ -1,8 +1,8 @@
 import { AxiosError } from 'axios'
 import { FEED_MODES } from 'src/config/constants'
-import ArticlesResponse from 'src/interfaces/ArticlesResponse'
-import { FeedMode } from 'src/interfaces/FeedMode'
-import FetchingState from 'src/interfaces/FetchingState'
+import ArticlesResponse from 'src/types/ArticlesResponse'
+import { FeedMode } from 'src/types/FeedMode'
+import FetchingState from 'src/types/FetchingState'
 import {
   FEED_FETCH,
   FEED_FETCH_FULFILLED,

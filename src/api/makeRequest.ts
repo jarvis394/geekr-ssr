@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import { API_TOKEN_URL, API_URL } from '../config/constants'
 import * as userSettings from 'src/utils/userSettings'
-import AuthorizedRequestParams from 'src/interfaces/AuthorizedRequestParams'
+import AuthorizedRequestParams from 'src/types/AuthorizedRequestParams'
 
 const CancelToken = axios.CancelToken
 const source = CancelToken.source()

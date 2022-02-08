@@ -1,4 +1,4 @@
-import UserSettings from 'src/interfaces/UserSettings'
+import UserSettings from 'src/types/UserSettings'
 import {
   SET_SETTINGS,
   GET_SETTINGS,

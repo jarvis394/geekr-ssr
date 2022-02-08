@@ -22,19 +22,13 @@ const Root = styled('div')(({ theme }) => ({
   display: 'flex',
   minHeight: `calc(100vh - ${APP_BAR_HEIGHT}px - ${
     isMobile() ? CHROME_ADDRESS_BAR_HEIGHT : 0
-  }px - ${
-    // shouldShowAppBar ? BOTTOM_BAR_HEIGHT : 0
-    0
-  }px + env(safe-area-inset-bottom, 0px))`,
+  }px - 0 + env(safe-area-inset-bottom, 0px))`,
   borderRadius: 0,
   alignItems: 'flex-start',
   flexDirection: 'row',
   width: '100%',
   maxWidth: APP_MAX_WIDTH,
-  margin: `0 auto calc(${
-    // shouldShowAppBar ? BOTTOM_BAR_HEIGHT : 0
-    0
-  }px + env(safe-area-inset-bottom, 0px)) auto`,
+  margin: '0 auto env(safe-area-inset-bottom, 0px) auto',
   boxSizing: 'border-box',
 }))
 
@@ -59,7 +53,7 @@ const App: React.FC<DocumentAppProps> = ({ Component, pageProps }) => {
   const globalStyles = React.useMemo(
     () => ({
       body: {
-        backgroundColor: theme.palette.background.paper + ' !important',
+        backgroundColor: theme.palette.background.default + ' !important',
         '& a': {
           WebkitTapHighlightColor: alpha(theme.palette.background.paper, 0.3),
         },
@@ -111,7 +105,6 @@ const App: React.FC<DocumentAppProps> = ({ Component, pageProps }) => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Global styles={globalStyles} />
-        <AppBar />
         <Root>
           <Component {...pageProps} />
         </Root>

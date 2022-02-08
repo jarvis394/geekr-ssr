@@ -1,8 +1,8 @@
 import { AxiosError } from 'axios'
 import { AnyAction } from 'redux'
-import ArticlesResponse from 'src/interfaces/ArticlesResponse'
-import { FeedMode } from 'src/interfaces/FeedMode'
-import FetchingState from 'src/interfaces/FetchingState'
+import ArticlesResponse from 'src/types/ArticlesResponse'
+import { FeedMode } from 'src/types/FeedMode'
+import FetchingState from 'src/types/FetchingState'
 import {
   ARTICLE_FETCH,
   ARTICLE_FETCH_FULFILLED,
