@@ -7,12 +7,43 @@ import {
   Box,
   NoSsr,
   Fade,
+  Divider,
+  SxProps,
+  Theme,
 } from '@mui/material'
 import React, { useMemo } from 'react'
 import { APP_BAR_HEIGHT } from 'src/config/constants'
 import useScrollTrigger from 'src/hooks/useScrollTrigger'
 import useDesktopMediaQuery from 'src/hooks/useDesktopMediaQuery'
 import BackIcon from '@mui/icons-material/ArrowBackRounded'
+import { SwitchTransition, CSSTransition } from 'react-transition-group'
+
+const UnmemoizedMountAnimation: React.FC<
+  React.PropsWithChildren<{
+    keyProp: React.Key
+    sx?: SxProps<Theme>
+  }>
+> = ({ keyProp, children, sx }) => {
+  return (
+    <SwitchTransition mode="out-in">
+      <CSSTransition<undefined>
+        key={keyProp}
+        addEndListener={(node: HTMLElement, done: () => void) => {
+          node.addEventListener('transitionend', done, false)
+        }}
+        classNames="fade"
+      >
+        {/*
+          We need div component because CSSTransition doesn't quite work
+          on any other thing somewhy. If trigger changes quickly back and fourth,
+          CSSTransition bugs on not removing exit state classes.
+        */}
+        <Box sx={sx}>{children}</Box>
+      </CSSTransition>
+    </SwitchTransition>
+  )
+}
+export const MountAnimation = React.memo(UnmemoizedMountAnimation)
 
 interface HeaderProps {
   // left?: React.ReactNode
@@ -20,6 +51,8 @@ interface HeaderProps {
   // fixed?: boolean
   // backgroundColor?: string
   // shrinkedBackgroundColor?: string
+  scrollThreshold?: number
+  divider?: boolean
   disableShrinking?: boolean
   scrollElement?: HTMLElement
   hidePositionBar?: boolean
@@ -59,19 +92,20 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   position: 'relative',
 }))
 const Title = styled(Typography)(({ theme }) => ({
-  color: theme.palette.text.primary,
+  fontFamily: 'Google Sans',
   fontWeight: 500,
+  color: theme.palette.text.primary,
   fontSize: 20,
   height: '100%',
   alignItems: 'center',
   display: 'flex',
-  fontFamily: 'Google Sans',
   letterHeight: '1.6',
   whiteSpace: 'nowrap',
   overflow: 'hidden',
   zIndex: 5,
   textOverflow: 'ellipsis',
   marginRight: theme.spacing(2),
+  marginLeft: theme.spacing(1.5),
 }))
 const ShrinkedTitle = styled(Typography)(({ theme }) => ({
   fontFamily: 'Google Sans',
@@ -101,14 +135,30 @@ const ProgressBar = styled(Box)(({ theme }) => ({
   height: '100%',
   transform: 'translateZ(0)',
 }))
-const ToolbarContent = styled(Box)({
+const ToolbarContent = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   flexDirection: 'row',
   position: 'absolute',
   width: '100%',
   height: '100%',
-})
+  '& .fade-enter': {
+    opacity: 0,
+  },
+  '& .fade-enter-active': {
+    opacity: 1,
+  },
+  '& .fade-exit': {
+    opacity: 1,
+  },
+  '& .fade-exit-active': {
+    opacity: 0,
+  },
+  '& div': {
+    transitionDuration: theme.transitions.duration.shorter + 'ms',
+    transitionTimingFunction: theme.transitions.easing.easeInOut,
+  },
+}))
 
 const target = typeof window !== 'undefined' ? window : null
 
@@ -117,6 +167,8 @@ const Header: React.FC<HeaderProps> = ({
   disableShrinking,
   scrollElement,
   hidePositionBar,
+  divider,
+  scrollThreshold,
 }) => {
   const isDesktop = useDesktopMediaQuery()
   const isShrinked = useScrollTrigger({
@@ -124,6 +176,7 @@ const Header: React.FC<HeaderProps> = ({
     triggerValue: false,
     enabled: !(disableShrinking || isDesktop),
     target,
+    scrollThreshold: scrollThreshold || APP_BAR_HEIGHT,
   })
   const getScrollProgress = React.useCallback(() => {
     const docElement =
@@ -175,18 +228,33 @@ const Header: React.FC<HeaderProps> = ({
                 <StyledIconButton>
                   <BackIcon />
                 </StyledIconButton>
-                <Title>{children}</Title>
+                <MountAnimation
+                  sx={{
+                    height: APP_BAR_HEIGHT / 2,
+                  }}
+                  keyProp={children?.toString()}
+                >
+                  <Title>{children}</Title>
+                </MountAnimation>
               </ToolbarContent>
             </Fade>
             <Fade in={isShrinked} appear={false}>
               <ToolbarContent>
-                <ShrinkedTitle>{children}</ShrinkedTitle>
+                <MountAnimation
+                  sx={{
+                    height: APP_BAR_HEIGHT / 2,
+                  }}
+                  keyProp={children?.toString() + '_shrinked'}
+                >
+                  <ShrinkedTitle>{children}</ShrinkedTitle>
+                </MountAnimation>
               </ToolbarContent>
             </Fade>
           </StyledToolbar>
         </StyledAppBar>
       </NoSsr>
       <Offset />
+      {divider && <Divider />}
     </>
   )
 }

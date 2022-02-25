@@ -23,10 +23,7 @@ const FeedPage: NextPage = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (
-      fetchingState === FetchingState.Idle ||
-      fetchingState === FetchingState.Error
-    ) {
+    if (fetchingState === FetchingState.Idle) {
       dispatch(
         getArticles({
           mode: 'monthly',

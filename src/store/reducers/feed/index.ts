@@ -12,7 +12,7 @@ import {
 } from './types'
 import { HYDRATE } from 'next-redux-wrapper'
 import produce from 'immer'
-import getPostLeadImage from 'src/utils/getPostLeadImage'
+import getPostLeadImage from 'src/utils/getArticleLeadImage'
 
 type FetchPayload = { mode: FeedMode; page: number }
 type FetchFulfilledPayload = {
@@ -33,6 +33,7 @@ FEED_MODES.forEach((e) => {
     lastUpdated: null,
   }
 })
+
 export default produce((draft, { type, payload }) => {
   switch (type) {
     case HYDRATE: {
@@ -51,16 +52,14 @@ export default produce((draft, { type, payload }) => {
       const { mode, data, page, pagesCount } = payload as FetchFulfilledPayload
 
       for (const id in data.articleRefs) {
-        data.articleRefs[id].leadImage = getPostLeadImage(
-          data.articleRefs[id]
-        )
+        data.articleRefs[id].leadImage = getPostLeadImage(data.articleRefs[id])
       }
 
       draft.modes[mode].state = FetchingState.Fetched
       draft.modes[mode].pages[page] = {
         articleRefs: data.articleRefs,
         articleIds: data.articleIds,
-        lastUpdated: Date.now()
+        lastUpdated: Date.now(),
       }
       draft.modes[mode].pagesCount = pagesCount
       draft.modes[mode].fetchError = null

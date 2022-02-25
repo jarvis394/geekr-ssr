@@ -1,7 +1,4 @@
 import { AxiosError } from 'axios'
-import { AnyAction } from 'redux'
-import ArticlesResponse from 'src/types/ArticlesResponse'
-import { FeedMode } from 'src/types/FeedMode'
 import FetchingState from 'src/types/FetchingState'
 import {
   ARTICLE_FETCH,
@@ -10,15 +7,13 @@ import {
   State,
 } from './types'
 import { HYDRATE } from 'next-redux-wrapper'
+import produce from 'immer'
+import { Article } from 'src/types'
 
-type FetchPayload = { mode: FeedMode; page: number }
 type FetchFulfulledPayload = {
-  mode: FeedMode
-  data: ArticlesResponse
-  page: number
-  pagesCount: number
+  data: Article
 }
-type FetchRejectedPayload = { mode: FeedMode; data: AxiosError; page: number }
+type FetchRejectedPayload = { data: AxiosError }
 
 const initialStoreFetchingState = {
   fetchError: null,
@@ -31,42 +26,37 @@ const initialState: State = {
   comments: initialStoreFetchingState,
 }
 
-const feedStore = (
-  state = initialState,
-  { type, payload }: AnyAction
-): State => {
+export default produce((draft, { type, payload }) => {
   switch (type) {
     case HYDRATE: {
-      return { ...state, ...payload.article }
+      draft = payload
+      break
     }
-
     case ARTICLE_FETCH: {
-      const { mode, page } = payload as FetchPayload
-      return {
-        ...state,
-        
-      }
+      draft.article.state = FetchingState.Fetching
+      draft.article.data = null
+      draft.article.lastUpdated = null
+      draft.article.fetchError = null
+      break
     }
-
     case ARTICLE_FETCH_FULFILLED: {
-      const { mode, data, page, pagesCount } = payload as FetchFulfulledPayload
-      return {
-        ...state,
-        
-      }
-    }
+      const { data } = payload as FetchFulfulledPayload
 
+      draft.article.state = FetchingState.Fetched
+      draft.article.lastUpdated = Date.now()
+      draft.article.data = data
+      draft.article.fetchError = null
+      break
+    }
     case ARTICLE_FETCH_REJECTED: {
-      const { mode, data, page } = payload as FetchRejectedPayload
-      return {
-        ...state,
-        
-      }
+      const { data } = payload as FetchRejectedPayload
+      draft.article.state = FetchingState.Fetched
+      draft.article.lastUpdated = null
+      draft.article.data = null
+      draft.article.fetchError = data
+      break
     }
-
     default:
-      return state
+      break
   }
-}
-
-export default feedStore
+}, initialState)

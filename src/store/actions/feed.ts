@@ -9,7 +9,7 @@ import {
 } from 'src/store/reducers/feed/types'
 import { FeedMode } from 'src/types'
 
-interface GetPostsParams {
+interface GetArticlesParams {
   mode: FeedMode
   page: number
   flow: FlowAlias
@@ -17,7 +17,7 @@ interface GetPostsParams {
 }
 
 export const getArticles =
-  (params: GetPostsParams) => async (dispatch, getState: () => RootState) => {
+  (params: GetArticlesParams) => async (dispatch, getState: () => RootState) => {
     const { mode, page, flow, forceUpdate = false } = params
     // Get data from root store to find out if we're going to fetch a data or not
     const storeState = getState()

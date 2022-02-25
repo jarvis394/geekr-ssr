@@ -3,6 +3,7 @@ import React from 'react'
 import { ARTICLE_IMAGE_HEIGHT } from 'src/config/constants'
 import { Article } from 'src/types'
 import parsePreviewTextHtml from 'src/utils/parsePreviewTextHtml'
+import getArticleLink from 'src/utils/getArticleLink'
 import LazyImage from './LazyImage'
 import dayjs from 'dayjs'
 import formatViewCount from 'src/utils/formatViewsCount'
@@ -10,15 +11,22 @@ import UserAvatar from './UserAvatar'
 import RouterLink from 'src/components/elements/Link'
 import { Icon24Comment } from '@vkontakte/icons'
 import formatWordByNumber from 'src/utils/formatWordByNumber'
+import isDarkTheme from 'src/utils/isDarkTheme'
 
 const Root = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   backgroundColor: theme.palette.background.default,
   position: 'relative',
+  '& a': {
+    WebkitTapHighlightColor: alpha(
+      theme.palette.background[isDarkTheme(theme) ? 'default' : 'paper'],
+      0.3
+    ),
+  }
 }))
 
-const Title = styled(Typography)(({ theme }) => ({
+const Title = styled(RouterLink)(({ theme }) => ({
   fontFamily: 'Google Sans',
   fontWeight: 700,
   color: theme.palette.text.primary,
@@ -261,6 +269,7 @@ const ScoreLabel: React.FC<{ score: number }> = ({ score }) => {
 const ArticleItem: React.FC<{ data: Article }> = ({ data }) => {
   const hasImage = React.useMemo(() => !!data.leadImage, [data.leadImage])
   const parsedPreviewText = parsePreviewTextHtml(data.leadData.textHtml)
+  const articleLink = getArticleLink(data)
   const timestamp = dayjs(data.timePublished).calendar()
   const views = formatViewCount(data.statistics.readingCount)
   const commentsText = formatWordByNumber(data.statistics.commentsCount, [
@@ -292,18 +301,29 @@ const ArticleItem: React.FC<{ data: Article }> = ({ data }) => {
   }
 
   return (
-    <Root>
+    <Root component={'article'}>
       <LabelsContainer hasImage={hasImage}>
         <ScoreLabel score={data.statistics.score} />
         {data.postLabels.map((e, i) => labelsToComponentsMap[e.type](i))}
       </LabelsContainer>
-      {hasImage && <LeadImage src={data.leadImage} />}
+      {hasImage && (
+        <RouterLink
+          href={articleLink}
+          sx={{
+            display: 'flex',
+          }}
+        >
+          <LeadImage disableZoom src={data.leadImage} />
+        </RouterLink>
+      )}
       <TimestampContainer hasImage={hasImage}>
         {timestamp}
         <Bullet />
         {views}
       </TimestampContainer>
-      <Title variant="h1">{data.titleHtml}</Title>
+      <Title href={articleLink} variant="h1">
+        {data.titleHtml}
+      </Title>
       <PreviewText>{parsedPreviewText}</PreviewText>
       <BottomRowContainer>
         <AuthorContainer href={'/user/' + data.author.alias}>
@@ -312,9 +332,7 @@ const ArticleItem: React.FC<{ data: Article }> = ({ data }) => {
         </AuthorContainer>
         <CommentsContainer href={'/comments/'}>
           <Icon24Comment width={20} height={20} />
-          <CommentsText>
-            {data.statistics.commentsCount} {commentsText}
-          </CommentsText>
+          <CommentsText>{data.statistics.commentsCount}</CommentsText>
         </CommentsContainer>
       </BottomRowContainer>
       <Divider />

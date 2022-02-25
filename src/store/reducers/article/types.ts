@@ -12,6 +12,7 @@ export const ARTICLE_COMMENTS_FETCH_FULFILLED = PREFIX + 'COMMENTS_FETCH_FULFULL
 export const ARTICLE_COMMENTS_FETCH_REJECTED = PREFIX + 'COMMENTS_FETCH_REJECTED'
 
 interface StoreFetchingState<T> {
+  [key: string]: unknown
   state: FetchingState
   fetchError: AxiosError
   lastUpdated: number

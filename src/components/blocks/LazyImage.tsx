@@ -12,6 +12,7 @@ import React, {
   useEffect,
   useCallback,
   MutableRefObject,
+  useRef,
 } from 'react'
 import { PhotoSwipe } from 'react-photoswipe'
 import { LAZY_LOAD_VISIBILITY_THRESHOLD } from 'src/config/constants'
@@ -98,6 +99,7 @@ const LazyImage: React.FC<ImageProps> = ({
   const initialImageDimensions = { width, height }
   const shouldInitiallyShowSpinner = !placeholderSrc
   const [isPswpOpen, setPswpOpen] = useState(false)
+  const imageRef = useRef<HTMLImageElement>()
   const [imageSrc, setImageSrc] = useState<string>(placeholderSrc)
   const [imageDimensions, setImageDimensions] = useState<ImageDimensions>(
     width && height ? initialImageDimensions : null
@@ -169,8 +171,17 @@ const LazyImage: React.FC<ImageProps> = ({
     filter: 'blur(8px)',
     transform: 'scale(1.05)',
   }
-  const pswpOptions: PhotoSwipe.UIFramework = {
+  const pswpOptions: PhotoSwipe.Options & PhotoSwipe.UIFramework = {
+    getThumbBoundsFn: (index) => {
+      const pageYScroll =
+        window.pageYOffset || document.documentElement.scrollTop
+      const rect = imageRef.current.getBoundingClientRect()
+
+      return { x: rect.left, y: rect.top + pageYScroll, w: rect.width }
+    },
     showHideOpacity: true,
+    showAnimationDuration: 333,
+    hideAnimationDuration: 333,
     bgOpacity: 0.8,
     fullscreenEl: false,
     zoomEl: false,
@@ -219,6 +230,7 @@ const LazyImage: React.FC<ImageProps> = ({
           {!shouldShowSpinner && (
             <Fade in mountOnEnter timeout={250}>
               <StyledImage
+                ref={imageRef}
                 src={imageSrc}
                 width={imageDimensions?.width || 'auto'}
                 height={imageDimensions?.height || 'auto'}

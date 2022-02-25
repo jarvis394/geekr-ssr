@@ -19,24 +19,25 @@ type StoreRef = React.MutableRefObject<{
 interface Options {
   getTrigger: typeof defaultTrigger
   threshold: number
-  disableHysteresis: boolean
   target: Window
   triggerValue: boolean
   trigger: boolean
   enabled: boolean
+  scrollThreshold: number
 }
 
 const defaultThreshold = 200
+const defaultScrollThreshold = 200
 const defaultTarget = typeof window !== 'undefined' ? window : null
 
 function defaultTrigger(store: StoreRef, options: Partial<Options>) {
-  const { threshold = defaultThreshold, target, trigger } = options
+  const { threshold, target, trigger, scrollThreshold } = options
   const previousDirection = store.current.direction
   const previousScroll = store.current.previousScroll
   const currentScroll = target ? target.scrollY : 0
 
   // Set the trigger to show if the scroll position is lower than a threshold
-  if (currentScroll < threshold) return State.SHOW
+  if (currentScroll < scrollThreshold) return State.SHOW
 
   // Set the previousScroll to the current scroll to store
   // This doesn't affect previousScroll variable, so we can do that anywhere in the code
@@ -71,6 +72,7 @@ const useScrollTrigger = (options: Partial<Options> = {}) => {
     getTrigger = defaultTrigger,
     target = defaultTarget,
     threshold = defaultThreshold,
+    scrollThreshold = defaultScrollThreshold,
     triggerValue = target.scrollY > threshold,
     enabled = true,
   } = options
@@ -85,7 +87,9 @@ const useScrollTrigger = (options: Partial<Options> = {}) => {
 
   React.useEffect(() => {
     const handleScroll = () => {
-      setTrigger(getTrigger(store, { target, trigger, threshold }))
+      setTrigger(
+        getTrigger(store, { target, trigger, threshold, scrollThreshold })
+      )
     }
     if (enabled) {
       // Re-evaluate trigger when dependencies change
@@ -97,7 +101,7 @@ const useScrollTrigger = (options: Partial<Options> = {}) => {
     return () => {
       target.removeEventListener('scroll', handleScroll)
     }
-  }, [target, getTrigger, trigger, threshold, enabled])
+  }, [target, getTrigger, trigger, threshold, enabled, scrollThreshold])
 
   return enabled ? trigger : false
 }
