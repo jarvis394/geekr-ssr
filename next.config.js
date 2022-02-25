@@ -13,6 +13,7 @@ const moduleExports = {
     dest: 'public',
     register: true,
     skipWaiting: true,
+    scope: '/',
   },
   env: {
     PUBLIC_URL: 'https://geekr-ssr.vercel.app',
