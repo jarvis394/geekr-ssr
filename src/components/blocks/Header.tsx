@@ -2,14 +2,11 @@ import {
   AppBar,
   Toolbar,
   styled,
-  Typography,
   IconButton,
   Box,
   NoSsr,
   Fade,
   Divider,
-  SxProps,
-  Theme,
 } from '@mui/material'
 import React, { useMemo } from 'react'
 import { APP_BAR_HEIGHT } from 'src/config/constants'
@@ -21,9 +18,8 @@ import { SwitchTransition, CSSTransition } from 'react-transition-group'
 const UnmemoizedMountAnimation: React.FC<
   React.PropsWithChildren<{
     keyProp: React.Key
-    sx?: SxProps<Theme>
   }>
-> = ({ keyProp, children, sx }) => {
+> = ({ keyProp, children }) => {
   return (
     <SwitchTransition mode="out-in">
       <CSSTransition<undefined>
@@ -33,12 +29,7 @@ const UnmemoizedMountAnimation: React.FC<
         }}
         classNames="fade"
       >
-        {/*
-          We need div component because CSSTransition doesn't quite work
-          on any other thing somewhy. If trigger changes quickly back and fourth,
-          CSSTransition bugs on not removing exit state classes.
-        */}
-        <Box sx={sx}>{children}</Box>
+        {children}
       </CSSTransition>
     </SwitchTransition>
   )
@@ -91,14 +82,11 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   alignItems: 'center',
   position: 'relative',
 }))
-const Title = styled(Typography)(({ theme }) => ({
+const Title = styled(Box)(({ theme }) => ({
   fontFamily: 'Google Sans',
   fontWeight: 500,
   color: theme.palette.text.primary,
   fontSize: 20,
-  height: '100%',
-  alignItems: 'center',
-  display: 'flex',
   letterHeight: '1.6',
   whiteSpace: 'nowrap',
   overflow: 'hidden',
@@ -107,7 +95,7 @@ const Title = styled(Typography)(({ theme }) => ({
   marginRight: theme.spacing(2),
   marginLeft: theme.spacing(1.5),
 }))
-const ShrinkedTitle = styled(Typography)(({ theme }) => ({
+const ShrinkedTitle = styled(Box)(({ theme }) => ({
   fontFamily: 'Google Sans',
   fontWeight: 500,
   color: theme.palette.text.secondary,
@@ -140,6 +128,7 @@ const ToolbarContent = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   flexDirection: 'row',
   position: 'absolute',
+  transform: 'translateZ(0)',
   width: '100%',
   height: '100%',
   '& .fade-enter': {
@@ -184,7 +173,7 @@ const Header: React.FC<HeaderProps> = ({
     const element = scrollElement || docElement
     const progress =
       element &&
-      element.scrollTop / (element.offsetHeight - element.clientHeight - 200)
+      element.scrollTop / (element.scrollHeight - element.clientHeight - 200)
     return element ? Math.min(progress, 1) : 0
   }, [scrollElement])
   const scrollCallback = React.useCallback(
@@ -208,7 +197,7 @@ const Header: React.FC<HeaderProps> = ({
       window.addEventListener('scroll', scrollCallback, { passive: true })
       return () => window.removeEventListener('scroll', scrollCallback)
     } else return () => null
-  }, [hidePositionBar, scrollElement, scrollCallback])
+  }, [hidePositionBar, scrollCallback, scrollElement?.scrollHeight])
 
   // We use NoSsr here to not make a mismatch with server and client styles
   // As client may have a non-zero scroll progress, ProgressBar should have
@@ -228,25 +217,19 @@ const Header: React.FC<HeaderProps> = ({
                 <StyledIconButton>
                   <BackIcon />
                 </StyledIconButton>
-                <MountAnimation
-                  sx={{
-                    height: APP_BAR_HEIGHT / 2,
-                  }}
-                  keyProp={children?.toString()}
-                >
-                  <Title>{children}</Title>
+                <MountAnimation keyProp={children?.toString()}>
+                  <Title role="heading" aria-level={1}>
+                    {children}
+                  </Title>
                 </MountAnimation>
               </ToolbarContent>
             </Fade>
             <Fade in={isShrinked} appear={false}>
               <ToolbarContent>
-                <MountAnimation
-                  sx={{
-                    height: APP_BAR_HEIGHT / 2,
-                  }}
-                  keyProp={children?.toString() + '_shrinked'}
-                >
-                  <ShrinkedTitle>{children}</ShrinkedTitle>
+                <MountAnimation keyProp={children?.toString() + '_shrinked'}>
+                  <ShrinkedTitle role="heading" aria-level={1}>
+                    {children}
+                  </ShrinkedTitle>
                 </MountAnimation>
               </ToolbarContent>
             </Fade>

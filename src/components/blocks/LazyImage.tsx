@@ -28,11 +28,13 @@ interface ImageProps {
   sx?: SxProps<Theme>
   width?: number
   height?: number
+  align?: AlignSetting
 }
 interface ImageDimensions {
   width: number
   height: number
 }
+type Props = ImageProps & React.ImgHTMLAttributes<HTMLImageElement>
 
 const Paper = styled(Box)(({ theme }) => ({
   borderRadius: 4,
@@ -87,13 +89,14 @@ const Spinner = () => {
   )
 }
 
-const LazyImage: React.FC<ImageProps> = ({
+const LazyImage: React.FC<Props> = ({
   src,
   placeholderSrc,
   alt,
   disableZoom = false,
   width,
   height,
+  align,
   ...props
 }) => {
   const initialImageDimensions = { width, height }

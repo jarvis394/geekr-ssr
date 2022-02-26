@@ -1,6 +1,13 @@
 import { Global, ThemeProvider } from '@emotion/react'
 import styled from '@emotion/styled'
-import { createTheme, alpha, lighten, darken, CssBaseline } from '@mui/material'
+import {
+  createTheme,
+  alpha,
+  lighten,
+  darken,
+  CssBaseline,
+  NoSsr,
+} from '@mui/material'
 import isMobile from 'is-mobile'
 import React from 'react'
 import {
