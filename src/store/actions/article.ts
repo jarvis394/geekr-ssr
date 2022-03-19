@@ -10,7 +10,6 @@ import {
   ARTICLE_FETCH_FULFILLED,
   ARTICLE_FETCH_REJECTED,
 } from 'src/store/reducers/article/types'
-import { createBranches, flatten, parseComments } from 'src/utils/commentsUtils'
 
 interface GetArticleParams {
   id: number
