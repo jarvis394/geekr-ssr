@@ -1,6 +1,8 @@
+import { Comment } from './Comment'
+
 export default interface Comments {
-  comments: Map<number, Comment>
-  threads: number[]
+  comments: Comment[]
+  threads: string[]
   commentAccess: {
     isCanComment: boolean
     cantCommentReasonKey?: string
@@ -8,4 +10,8 @@ export default interface Comments {
   }
   lastCommentTimestamp: number
   moderated: never
+}
+
+export type APIResponseComments = Omit<Comments, 'comments'> & {
+  comments: Record<string, Comment>
 }

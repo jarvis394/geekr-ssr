@@ -4,19 +4,43 @@ import parse, {
   domToReact,
   HTMLReactParserOptions,
   Element,
-  Text
+  DOMNode,
 } from 'html-react-parser'
-import LazyImage from '../blocks/LazyImage'
+import LazyImage from 'src/components/blocks/LazyImage'
+import { Node as MathJaxNode } from '@nteract/mathjax'
 
 type Props = { children: string; sx?: SxProps<Theme> } & JSX.IntrinsicAttributes
 
-const Root = styled(Box)(({ theme }) => ({}))
+const Root = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  '& blockquote': {
+    margin: 0,
+  },
+  '& figure': {
+    margin: 0,
+  },
+  '& p': {
+    margin: 0,
+  },
+}))
+
+/**
+ * Checks if argument is Element class
+ * TODO: needs to be done through `instanceof`
+ */
+const isElement = (e: DOMNode): e is Element => {
+  return e.constructor.name === 'Element'
+}
 
 const FormattedText: React.FC<Props> = ({ children: text, ...props }) => {
   const options: HTMLReactParserOptions = {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //@ts-ignore
-    replace: (node: Element) => {
+    replace: (node) => {
+      if (!isElement(node)) return node
+      if (node.attribs.xmlns === 'http://www.w3.org/1999/xhtml') {
+        return <>{domToReact(node.children, options)}</>
+      }
+
       switch (node.name) {
         case '&nbsp;':
           return <> </>
@@ -27,22 +51,27 @@ const FormattedText: React.FC<Props> = ({ children: text, ...props }) => {
             </Tooltip>
           )
         case 'img': {
-          // const imgClasses = attribs.class ? attribs.class.split(' ') : []
-          // if (attribs['data-tex']) {
-          //   const formula = attribs['alt'].slice(1, attribs['alt'].length - 1)
-          //   return (
-          //     <MathJaxNode inline={attribs['data-tex'] === 'inline'}>
-          //       {formula}
-          //     </MathJaxNode>
-          //   )
-          // } else if (imgClasses.some((e) => e === 'formula')) {
-          //   const formula = attribs.source
-          //   return (
-          //     <MathJaxNode inline={imgClasses.some((e) => e === 'inline')}>
-          //       {formula}
-          //     </MathJaxNode>
-          //   )
-          // }
+          const imgClasses = node.attribs.class
+            ? node.attribs.class.split(' ')
+            : []
+          if (node.attribs['data-tex']) {
+            const formula = node.attribs.alt.slice(
+              1,
+              node.attribs.alt.length - 1
+            )
+            return (
+              <MathJaxNode inline={node.attribs['data-tex'] === 'inline'}>
+                {formula}
+              </MathJaxNode>
+            )
+          } else if (imgClasses.some((e) => e === 'formula')) {
+            const formula = node.attribs.source
+            return (
+              <MathJaxNode inline={imgClasses.some((e) => e === 'inline')}>
+                {formula}
+              </MathJaxNode>
+            )
+          }
 
           return (
             <LazyImage

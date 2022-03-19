@@ -93,7 +93,7 @@ const Title = styled(Box)(({ theme }) => ({
   zIndex: 5,
   textOverflow: 'ellipsis',
   marginRight: theme.spacing(2),
-  marginLeft: theme.spacing(1.5),
+  marginLeft: theme.spacing(0.5),
 }))
 const ShrinkedTitle = styled(Box)(({ theme }) => ({
   fontFamily: 'Google Sans',

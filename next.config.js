@@ -6,7 +6,7 @@ const { withSentryConfig } = require('@sentry/nextjs')
 
 const moduleExports = {
   images: {
-    domains: ['habrastorage.org'],
+    domains: ['habrastorage.org', 'favicon.yandex.net'],
   },
   webpack5: true,
   pwa: {

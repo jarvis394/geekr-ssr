@@ -108,15 +108,15 @@ const App: React.FC<DocumentAppProps> = ({ Component, pageProps }) => {
   useDayjsLocaleChange()
 
   return (
-    <MatomoProvider value={createInstance(matomoInstanceOptions)}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Global styles={globalStyles} />
-        <Root>
-          <Component {...pageProps} />
-        </Root>
-      </ThemeProvider>
-    </MatomoProvider>
+    // <MatomoProvider value={createInstance(matomoInstanceOptions)}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Global styles={globalStyles} />
+      <Root>
+        <Component {...pageProps} />
+      </Root>
+    </ThemeProvider>
+    // </MatomoProvider>
   )
 }
 

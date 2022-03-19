@@ -16,7 +16,6 @@ import { FetchingState } from 'src/types'
 
 const Root = styled(Box)({
   width: '100%',
-  height: '200vh',
 })
 const TopContentContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -181,6 +180,7 @@ const Article = () => {
               ))}
             </HubsContainer>
           </TopContentContainer>
+          <Link href={location.pathname + '/comments'}>to comments</Link>
           <ArticleText>{data.textHtml}</ArticleText>
         </>
       )}

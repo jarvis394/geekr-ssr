@@ -134,3 +134,4 @@ export const FEED_MODES: FeedModeData[] = [
 
 export const HOUR = 1000 * 60 * 60
 export const DEFAULT_UPDATE_INTERVAL = HOUR / 4
+export const THREAD_LEVEL = 7
