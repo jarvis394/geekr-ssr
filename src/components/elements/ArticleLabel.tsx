@@ -58,6 +58,13 @@ const Technotext2021Label = (
   />
 )
 
+const Technotext2022Label = (
+  <TechnotextLabel
+    label="✏️ Технотекст 2022"
+    link="https://habr.com/ru/technotext/2022/"
+  />
+)
+
 const RecoveryLabel = () => {
   return (
     <Label
@@ -157,8 +164,12 @@ const ArticleLabel: React.FC<Props> = ({ variant, score, ...props }) => {
       return React.cloneElement(Technotext2020Label, props)
     case 'technotext2021':
       return React.cloneElement(Technotext2021Label, props)
+    case 'technotext2022':
+      return React.cloneElement(Technotext2022Label, props)
     case 'score':
       return <ScoreLabel score={score} {...props} />
+    default:
+      return null
   }
 }
 

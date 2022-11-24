@@ -5,7 +5,6 @@ import {
   darken,
   Theme,
   Box,
-  ButtonBase,
   IconButton,
   alpha,
 } from '@mui/material'
@@ -137,6 +136,7 @@ const ReplyButton = styled('button')(({ theme }) => ({
   background: 'transparent',
   cursor: 'pointer',
   height: '100%',
+  marginTop: -2,
   '&:hover': {
     color: theme.palette.primary.main,
   },
@@ -151,7 +151,7 @@ const ScoreContainer = styled('div')(({ theme }) => ({
 const ScoreLabel = styled('span')(({ theme }) => ({
   fontWeight: 900,
   fontFamily: 'Google Sans',
-  color: theme.palette.text.primary,
+  color: theme.palette.text.secondary,
   background: alpha(theme.palette.text.primary, 0.12),
   minWidth: 32,
   height: '100%',
