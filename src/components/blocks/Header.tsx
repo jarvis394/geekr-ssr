@@ -47,7 +47,7 @@ interface HeaderProps {
   disableShrinking?: boolean
   scrollElement?: HTMLElement
   hidePositionBar?: boolean
-  children?: string | HTMLElement
+  children?: React.ReactNode
 }
 
 interface AppBarStyleProps {

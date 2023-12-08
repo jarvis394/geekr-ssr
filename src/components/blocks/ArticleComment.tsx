@@ -89,7 +89,7 @@ const AuthorContainer = styled('header')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'row',
   contentVisibility: 'auto',
-  'contain-intrinsic-size': '0 26px',
+  containIntrinsicSize: '0 26px',
   contain: 'strict',
 }))
 const StyledUserAvatar = styled(UserAvatar)(({ theme }) => ({

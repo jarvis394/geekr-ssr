@@ -23,7 +23,7 @@ export const getArticle =
     const storeState = getState()
     const storeData = storeState.article.article
 
-    if (!shouldUpdate(storeData) && !forceUpdate) {
+    if (storeData.data?.id === id && !shouldUpdate(storeData) && !forceUpdate) {
       return Promise.resolve()
     }
 
@@ -53,9 +53,6 @@ export const getArticleComments = (id: number | string) => async (dispatch) => {
 
   try {
     const data = await api.article.getComments(id)
-    // const parsedComments = parseComments(data.comments)
-    // const flattenComments = flatten(parsedComments)
-    // const comments = createBranches(flattenComments)
 
     dispatch({
       type: ARTICLE_COMMENTS_FETCH_FULFILLED,

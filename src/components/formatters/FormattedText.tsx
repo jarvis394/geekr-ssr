@@ -41,7 +41,7 @@ const Root = styled(Box)(({ theme }) => ({
   '& a': {
     color: theme.palette.primary.main,
     textDecoration: 'none',
-    '-webkit-tap-highlight-color': 'transparent !important',
+    WebkitTapHighlightColor: 'transparent !important',
   },
   '& a:hover': {
     color: alpha(theme.palette.primary.main, 0.8),

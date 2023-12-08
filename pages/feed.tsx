@@ -46,8 +46,8 @@ const FeedPage: NextPage = () => {
         </Typography>
       )}
       {fetchingState === FetchingState.Fetched &&
-        data.articleIds.map((e) => (
-          <ArticleItem data={data.articleRefs[e]} key={e} />
+        data.publicationIds.map((e) => (
+          <ArticleItem data={data.publicationRefs[e]} key={e} />
         ))}
     </Root>
   )

@@ -14,16 +14,12 @@ import {
   APP_BAR_HEIGHT,
   CHROME_ADDRESS_BAR_HEIGHT,
   APP_MAX_WIDTH,
-  MATOMO_SERVER_URL,
-  MATOMO_SITE_ID,
 } from 'src/config/constants'
-import useAnalytics from 'src/hooks/useAnalytics'
 import useDayjsLocaleChange from 'src/hooks/useDayjsLocaleChange'
 import useSelector from 'src/hooks/useSelector'
 import isDarkTheme from 'src/utils/isDarkTheme'
 import { DocumentAppProps } from 'pages/_app'
 import AppBar from 'src/components/blocks/AppBar'
-import { createInstance, MatomoProvider } from '@datapunt/matomo-tracker-react'
 
 const Root = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -45,18 +41,6 @@ const App: React.FC<DocumentAppProps> = ({ Component, pageProps }) => {
   )
   const storeTheme = useSelector((store) => store.settings.theme)
   const theme = React.useMemo(() => createTheme(storeTheme), [storeTheme])
-  const matomoInstanceOptions = {
-    urlBase: MATOMO_SERVER_URL,
-    siteId: MATOMO_SITE_ID,
-    linkTracking: false,
-    configurations: {
-      setRequestMethod: 'POST',
-      setRequestContentType: 'application/json',
-      setDoNotTrack: false,
-      setSecureCookie: true,
-      disableCookies: storeDisableCookies,
-    },
-  }
   const globalStyles = React.useMemo(
     () => ({
       body: {
@@ -104,11 +88,9 @@ const App: React.FC<DocumentAppProps> = ({ Component, pageProps }) => {
     [theme]
   )
 
-  useAnalytics()
   useDayjsLocaleChange()
 
   return (
-    // <MatomoProvider value={createInstance(matomoInstanceOptions)}>
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Global styles={globalStyles} />
@@ -116,7 +98,6 @@ const App: React.FC<DocumentAppProps> = ({ Component, pageProps }) => {
         <Component {...pageProps} />
       </Root>
     </ThemeProvider>
-    // </MatomoProvider>
   )
 }
 

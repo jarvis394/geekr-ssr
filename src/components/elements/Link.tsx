@@ -69,7 +69,7 @@ const NextLink = (
   }
 
   return (
-    <Link href={href} as={as} prefetch={prefetch} passHref>
+    <Link href={href} as={as} prefetch={prefetch} passHref legacyBehavior>
       {component}
     </Link>
   )

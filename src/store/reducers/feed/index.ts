@@ -51,14 +51,14 @@ export default produce((draft, { type, payload }) => {
     case FEED_FETCH_FULFILLED: {
       const { mode, data, page, pagesCount } = payload as FetchFulfilledPayload
 
-      for (const id in data.articleRefs) {
-        data.articleRefs[id].leadImage = getPostLeadImage(data.articleRefs[id])
+      for (const id in data.publicationRefs) {
+        data.publicationRefs[id].leadImage = getPostLeadImage(data.publicationRefs[id])
       }
 
       draft.modes[mode].state = FetchingState.Fetched
       draft.modes[mode].pages[page] = {
-        articleRefs: data.articleRefs,
-        articleIds: data.articleIds,
+        publicationRefs: data.publicationRefs,
+        publicationIds: data.publicationIds,
         lastUpdated: Date.now(),
       }
       draft.modes[mode].pagesCount = pagesCount
